@@ -1,77 +1,28 @@
-<?php include ("db.php")?>
-<?php include("include/header.php")?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=devide=width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>AriAdmin</title>
+    <!-- BOOSTSTRAP 4-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-<div class="container p-4">
-	
-	<div class="row">
+    <!--FONT AWESOME 5 -->
+    <script src="https://kit.fontawesome.com/525aeb1851.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<?php
+require_once('vendor/autoload.php');
 
-		<div class="col-md-4">
-		
-		<?php if (isset($_SESSION['message'])) {?>
-			
-		<div class="alert alert-<?= $_SESSION['message_type'];?> alert-dismissible fade show" role="alert">
- 		 <?= $_SESSION['message']?>
-  		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    	<span aria-hidden="true">&times;</span>
-  		</button>
-</div>
+use app\router\Main;
 
+include("app/components/header/template.php");
+Main::routes();
+include("app/components/footer/template.php");
+?>
 
-		<?php session_unset();}?>
+</body>
+</html>
 
-			<div class="card card-body">
-				<form action="save_task.php" method="POST">
-					<div class="form-group">
-						<input type="text" name="title" class="form-control" placeholder="Task Title" autofocus>
-					</div>
-					<div class="form-group">
-					<textarea name="description" rows="2" class="form-control" placeholder="Task Description"></textarea>	
-					</div>
-					<input type="submit" class="btn btn-success btn-block" name="save_task" value="Save Task">
-				</form>
-			</div>
-
-		</div>
-		
-		<div class="col-md-8">
-			<table class="table table-bordered">
-				<thead>
-					<tr>
-						<th>Title</th>
-						<th>Description</th>
-						<th>Created At</th>
-						<th>Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php
-					$query = "SELECT * FROM task";	
-					$result_tasks = mysqli_query($conn, $query); 
-					while($row = mysqli_fetch_array($result_tasks)) { ?>
-						<tr>
-								<td><?php echo $row['title'] ?></td>
-								<td><?php echo $row['description'] ?></td>
-								<td><?php echo $row['created_at'] ?></td>
-								<td>
-									<a href="edit.php?id=<?php echo $row['id']?>" class="btn btn-secondary">
-										<i class="fas fa-marker"></i>
-									</a>
-									<a href="delete_task.php?id=<?php echo $row['id']?>" class="btn btn-danger">
-									<i class="fas fa-trash-alt"></i>
-									</a>
-								</td>
-						</tr>				
-		
-
-					<?php } ?>
-					
-				</tbody>
-			</table>
-
-		</div>
-	</div>
-	
-
-</div>
-
-<?php include("include/fooder.php")?>	
